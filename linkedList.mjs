@@ -9,7 +9,7 @@ class EntryList {
     }
 }
 
-class LinkedList {
+export class LinkedList {
     constructor() {
         this.head = null
         this.tail = null
@@ -25,7 +25,7 @@ class LinkedList {
         }
 
         this.tail.next = entry
-        this.tail = entry
+        this.tail = this.tail.next
         return this
     }
 
@@ -59,14 +59,13 @@ class LinkedList {
 
     deleteOne(value) {
         if (!this.head) return false
-        if (this.head === this.tail && this.head.value === value) {
-            this.head = null
-            this.tail = null
-
-            return true
-        }
         if (this.head.value === value) {
-            this.head = this.head.next
+            if (this.head !== this.tail) {
+                this.head = this.head.next
+            } else {
+                this.head = null
+                this.tail = null
+            }
 
             return true
         }
@@ -77,15 +76,14 @@ class LinkedList {
             if (currentEntry.next.value === value) {
                 if (currentEntry.next.next) {
                     currentEntry.next = currentEntry.next.next
-
-                    return true
                 } else {
                     currentEntry.next = null
                     this.tail = currentEntry
-
-                    return true
                 }
+
+                return true
             }
+
             currentEntry = currentEntry.next
         }
 
@@ -162,6 +160,22 @@ class LinkedList {
         return this
     }
 
+    updateWithCallback(callback) {
+        if (!this.head) return this
+        
+        let currentEntry = this.head
+
+        while (currentEntry) {
+            const updatedEntry = callback(currentEntry)
+            if (updatedEntry) {
+                currentEntry.value = updatedEntry
+            }
+            currentEntry = currentEntry.next
+        }
+
+        return this
+    }
+
     map(callback) {
         const newList = new LinkedList()
 
@@ -176,6 +190,19 @@ class LinkedList {
 
         return newList
     }
-}
 
-const list = new LinkedList()
+    find(callback) {
+        if (!this.head) return null
+
+        let currentEntry = this.head
+
+        while (currentEntry) {
+            if (callback(currentEntry)) {
+                return currentEntry
+            }
+            currentEntry = currentEntry.next
+        }
+
+        return null
+    }
+}
