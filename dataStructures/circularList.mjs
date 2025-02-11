@@ -6,7 +6,7 @@ class EntryCircularList {
     }
 }
 
-class CircularList {
+export class CircularList {
     constructor() {
         this.head = null
         this.tail = null
@@ -47,7 +47,9 @@ class CircularList {
     }
 
     deleteOne(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
         if (this.head.value === value) {
             if (this.length > 1) {
                 this.head = this.head.next
@@ -90,7 +92,9 @@ class CircularList {
     }
 
     deleteAll(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
         
         let deletedEntry = null
 
@@ -138,7 +142,9 @@ class CircularList {
     }
 
     updateOne(oldValue, newValue) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
         
         let currentEntry = this.head
         let lengthList = this.length
@@ -157,7 +163,9 @@ class CircularList {
     }
 
     updateAll(oldValue, newValue) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
 
         let currentEntry = this.head
         let lengthList = this.length
@@ -176,7 +184,9 @@ class CircularList {
     map(callback) {
         const newCircularList = new CircularList()
 
-        if (!this.head) return newCircularList
+        if (!this.head) {
+            return newCircularList
+        }
 
         let currentEntry = this.head
         let lengthList = this.length

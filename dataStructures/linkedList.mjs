@@ -29,36 +29,73 @@ export class LinkedList {
         return this
     }
 
-    toString() {
-        if (!this.head) return null
+    appendTop(value) {
+        const entry = new EntryList(value)
 
+        entry.next = this.head
+        this.head = entry
+        
+        return this
+    }
+
+    toString(callback = null) {
+        
+        if (!this.head) {
+            return null
+        }
+        
         let currentEntry = this.head
         let allEntries = ''
 
         while (currentEntry) {
-            allEntries += `${currentEntry.toString()} `
+            if (callback) {
+                allEntries += `${callback(currentEntry)}`
+            } else {
+                allEntries += `${currentEntry.toString()} `
+            }
+
             currentEntry = currentEntry.next
         }
 
         return allEntries
     }
 
-    toArray() {
-        if (!this.head) return null
+    toArray(callback = null) {        
+        if (!this.head) {
+            return null
+        }
 
         let currentEntry = this.head
         let allEntries = []
 
         while (currentEntry) {
-            allEntries.push(currentEntry)
+            if (callback) {
+                allEntries.push(callback(currentEntry))
+            } else {
+                allEntries.push(currentEntry)
+            }
+
             currentEntry = currentEntry.next
         }
 
         return allEntries
     }
 
+    deleteFirst() {
+        if (!this.head) {
+            return null
+        }
+
+        const deletedEntry = this.head
+        this.head = this.head.next
+
+        return deletedEntry
+    }
+
     deleteOne(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
         if (this.head.value === value) {
             if (this.head !== this.tail) {
                 this.head = this.head.next
@@ -91,7 +128,9 @@ export class LinkedList {
     }
 
     deleteAll(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
 
         let currentEntry = this.head
         let deleteEntry = null
@@ -128,8 +167,40 @@ export class LinkedList {
         return !!deleteEntry
     }
 
+    deleteWithCallback(callback) {
+        if (!this.head) {
+            return false
+        }
+
+        let currentEntry = this.head
+        let previousEntry = null
+
+        while (currentEntry) {
+            if (callback(currentEntry)) {
+                if (!previousEntry) {
+                    if (this.head !== this.tail) {
+                        this.head = currentEntry.next
+                    } else {
+                        this.head = null
+                        this.tail = null
+                    }
+                } else {
+                    previousEntry.next = previousEntry.next.next
+                }
+
+                return true
+            }
+            previousEntry = currentEntry
+            currentEntry = currentEntry.next
+        }
+
+        return false
+    }
+
     updateOne(oldValue, newValue) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
         
         let currentEntry = this.head
         
@@ -146,7 +217,9 @@ export class LinkedList {
     }
 
     updateAll(oldValue, newValue) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
         
         let currentEntry = this.head
 
@@ -161,25 +234,33 @@ export class LinkedList {
     }
 
     updateWithCallback(callback) {
-        if (!this.head) return this
+        if (!this.head) {
+            return false
+        }
         
         let currentEntry = this.head
+        let hasUpdate = false
 
         while (currentEntry) {
             const updatedEntry = callback(currentEntry)
+
             if (updatedEntry) {
                 currentEntry.value = updatedEntry
+                hasUpdate = true
             }
+
             currentEntry = currentEntry.next
         }
 
-        return this
+        return hasUpdate
     }
 
     map(callback) {
         const newList = new LinkedList()
 
-        if (!this.head) return newList
+        if (!this.head) {
+            return newList
+        }
 
         let currentEntry = this.head
         
@@ -192,7 +273,9 @@ export class LinkedList {
     }
 
     find(callback) {
-        if (!this.head) return null
+        if (!this.head) {
+            return null
+        }
 
         let currentEntry = this.head
 

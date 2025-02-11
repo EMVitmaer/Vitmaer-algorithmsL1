@@ -6,7 +6,7 @@ class EntryDoubleList {
     }
 }
 
-class DoubleLinkedList {
+export class DoubleLinkedList {
     constructor() {
         this.head = null
         this.tail = null
@@ -42,7 +42,9 @@ class DoubleLinkedList {
     }
 
     deleteOne(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
         
         if (this.head.value === value) {
             if (this.head.next) {
@@ -77,7 +79,9 @@ class DoubleLinkedList {
     }
 
     deleteAll(value) {
-        if (!this.head) return false
+        if (!this.head) {
+            return false
+        }
 
         let deletedEntry = null
 
@@ -119,7 +123,9 @@ class DoubleLinkedList {
     }
 
     updateOne(oldValue, newValue = null) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
 
         let currentEntry = this.head
         while (currentEntry) {
@@ -135,7 +141,9 @@ class DoubleLinkedList {
     }
 
     updateAll(oldValue, newValue = null) {
-        if (!this.head) return this
+        if (!this.head) {
+            return this
+        }
 
         let currentEntry = this.head
 
@@ -152,7 +160,9 @@ class DoubleLinkedList {
 
     map(callback) {
         const newDoudleList = new DoubleLinkedList()
-        if (!this.head) return newDoudleList
+        if (!this.head) {
+            return newDoudleList
+        }
 
         let currentEntry = this.head
 
