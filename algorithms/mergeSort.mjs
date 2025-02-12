@@ -1,50 +1,32 @@
-export function mergeSort(array, left, rigth) {
-    if (left >= rigth) {
-        return
+export function mergeSort(array) {
+    if (array.length < 2) {
+        return array
+    }
+
+    const mid = Math.floor((array.length - 1) / 2)
+    let leftArray = mergeSort(array.slice(0, mid + 1))
+    let rigthArray = mergeSort(array.slice(mid + 1, array.length))
+    
+    if (leftArray.length >= 2) {
+        leftArray = mergeSort(leftArray)
+    }
+    if (rigthArray.length >= 2) {
+        rigthArray = mergeSort(rigthArray)
     }
     
-    const mid = Math.floor(left + (rigth - left) / 2)
-    mergeSort(array, left, mid)
-    mergeSort(array, mid + 1, rigth)
-    mergeArrays(array, left, mid, rigth)
-}
+    let i = 0
+    let j = 0
+    const newArray = []
 
-function mergeArrays(array, left, mid, rigth) {
-    const leftLength = mid - left + 1
-    const rigthLength = rigth - mid
-    
-    const leftArray = new Array(leftLength)
-    const rigthArray = new Array(rigthLength)
-
-    for (let i = 0; i < leftLength; i++) {
-        leftArray[i] = array[left + i]
-    }    
-    for (let i = 0; i < rigthLength; i++) {
-        rigthArray[i] = array[mid + i + 1]
-    }
-    
-    let leftIndex = 0
-    let rigthIndex = 0 
-    let finalyIndex = left
-
-    while ((leftIndex < leftLength) && (rigthIndex < rigthLength)) {
-        if (leftArray[leftIndex] <= rigthArray[rigthIndex]) {            
-            array[finalyIndex] = leftArray[leftIndex]
-            leftIndex++
+    while (i < leftArray.length && j < rigthArray.length) {
+        if (leftArray[i] <= rigthArray[j]) {
+            newArray.push(leftArray[i])
+            i++
         } else {
-            array[finalyIndex] = rigthArray[rigthIndex]
-            rigthIndex++
+            newArray.push(rigthArray[j])
+            j++
         }
-
-        finalyIndex++
     }
 
-    for (; leftIndex < leftLength; leftIndex++) {
-        array[finalyIndex] = leftArray[leftIndex]
-        finalyIndex++
-    }
-    for (; rigthIndex < rigthLength; rigthIndex++) {
-        array[finalyIndex] = rigthArray[rigthIndex]
-        finalyIndex++
-    }
+    return newArray.concat(leftArray.slice(i), rigthArray.slice(j))
 }
