@@ -5,14 +5,7 @@ export function mergeSort(array) {
 
     const mid = Math.floor((array.length - 1) / 2)
     let leftArray = mergeSort(array.slice(0, mid + 1))
-    let rigthArray = mergeSort(array.slice(mid + 1, array.length))
-    
-    if (leftArray.length >= 2) {
-        leftArray = mergeSort(leftArray)
-    }
-    if (rigthArray.length >= 2) {
-        rigthArray = mergeSort(rigthArray)
-    }
+    let rigthArray = mergeSort(array.slice(mid + 1))
     
     let i = 0
     let j = 0
